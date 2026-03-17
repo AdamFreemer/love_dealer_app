@@ -1,0 +1,28 @@
+admin:
+  email: "admin@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  first_name: "Admin"
+  last_name: "User"
+  admin: true
+  status: 1
+
+customer:
+  email: "customer@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  first_name: "Test"
+  last_name: "Customer"
+  age: 30
+  gender: 1
+  seeking: 0
+  status: 0
+  location: "New York, NY"
+  intake_token: "test-intake-token-123"
+
+passwordless:
+  email: "new@example.com"
+  first_name: "New"
+  last_name: "Applicant"
+  age: 28
+  gender: 0
+  status: 0
+  intake_token: "passwordless-token-456"

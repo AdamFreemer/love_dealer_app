@@ -1,0 +1,3 @@
+customer_matchmaking:
+  user: customer
+  service: matchmaking

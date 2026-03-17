@@ -1,0 +1,59 @@
+<div class="mb-6">
+  <a href="<%= admin_customer_path(@customer) %>" class="text-sm text-gray-500 hover:text-gray-900 no-underline">&larr; Back to <%= @customer.full_name %></a>
+</div>
+
+<h1 class="font-serif text-2xl mb-8">Edit <%= @customer.full_name %></h1>
+
+<div class="bg-white rounded-xl border border-gray-200 p-8 max-w-2xl">
+  <%= form_with(model: @customer, url: admin_customer_path(@customer), method: :patch, class: "space-y-6") do |f| %>
+    <% if @customer.errors.any? %>
+      <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-sm">
+        <% @customer.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div>
+      <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Status</label>
+      <%= f.select :status, options_for_select([["Under Review", "under_review"], ["Accepted", "accepted"], ["Please Contact", "please_contact"]], @customer.status), {}, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">First Name</label>
+        <%= f.text_field :first_name, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
+      </div>
+      <div>
+        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Last Name</label>
+        <%= f.text_field :last_name, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Email</label>
+      <%= f.email_field :email, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Phone</label>
+        <%= f.phone_field :phone, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
+      </div>
+      <div>
+        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Location</label>
+        <%= f.text_field :location, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Admin Notes</label>
+      <%= f.text_area :admin_notes, rows: 4, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none resize-y" %>
+    </div>
+
+    <div class="flex gap-3">
+      <%= f.submit "Save changes", class: "px-6 py-2.5 bg-pk text-white rounded-lg text-sm cursor-pointer hover:bg-pk-dk transition-colors" %>
+      <a href="<%= admin_customer_path(@customer) %>" class="px-6 py-2.5 border border-gray-300 text-gray-600 rounded-lg text-sm no-underline hover:bg-gray-50 transition-colors">Cancel</a>
+    </div>
+  <% end %>
+</div>

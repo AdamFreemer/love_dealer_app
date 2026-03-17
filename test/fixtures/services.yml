@@ -1,0 +1,11 @@
+matchmaking:
+  name: "Personal Matchmaking"
+  notes: "One-on-one introductions"
+
+coaching:
+  name: "Dating Coaching"
+  notes: "Refine your approach"
+
+mixers:
+  name: "Group Video Mixers"
+  notes: "Virtual gatherings"

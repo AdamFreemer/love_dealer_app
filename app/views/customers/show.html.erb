@@ -1,0 +1,117 @@
+<section class="py-32 px-8">
+  <div class="max-w-3xl mx-auto">
+    <div class="flex items-center justify-between mb-10">
+      <div>
+        <h1 class="font-serif text-3xl font-normal text-cream"><%= @user.full_name %></h1>
+        <p class="text-sm text-muted mt-1"><%= @user.email %></p>
+      </div>
+      <% status_colors = { "under_review" => "border-yellow-500/40 text-yellow-300 bg-yellow-900/20", "accepted" => "border-green-500/40 text-green-300 bg-green-900/20", "please_contact" => "border-pk/40 text-pk bg-pk/10" } %>
+      <span class="px-4 py-1.5 rounded-full border text-xs tracking-wider uppercase <%= status_colors[@user.status] || status_colors['under_review'] %>">
+        <%= @user.status.humanize %>
+      </span>
+    </div>
+
+    <div class="space-y-8">
+      <%# === BASIC INFO === %>
+      <div class="bg-bg2 border border-border rounded-2xl p-8">
+        <h2 class="text-xs tracking-[0.2em] uppercase text-pk mb-6">Basic Information</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <%= render_field("Age", @user.age) %>
+          <%= render_field("Gender", @user.gender&.humanize) %>
+          <%= render_field("Seeking", @user.seeking&.sub("seeking_", "")&.humanize) %>
+          <%= render_field("Location", @user.location) %>
+        </div>
+        <% if @user.phone.present? %>
+          <div class="mt-4"><%= render_field("Phone", @user.phone) %></div>
+        <% end %>
+        <% if @user.about.present? %>
+          <div class="mt-6">
+            <div class="text-xs uppercase tracking-widest text-muted mb-1">About</div>
+            <p class="text-sm text-cream/80 leading-relaxed"><%= @user.about %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <%# === SERVICES === %>
+      <% if @user.services.any? %>
+        <div class="bg-bg2 border border-border rounded-2xl p-8">
+          <h2 class="text-xs tracking-[0.2em] uppercase text-pk mb-4">Interested In</h2>
+          <div class="flex gap-2 flex-wrap">
+            <% @user.services.each do |service| %>
+              <span class="px-4 py-2 rounded-full border border-pk text-pk text-xs bg-pk/10"><%= service.name %></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <%# === LIFE STAGE & READINESS === %>
+      <div class="bg-bg2 border border-border rounded-2xl p-8">
+        <h2 class="text-xs tracking-[0.2em] uppercase text-pk mb-6">Life Stage & Readiness</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <%= render_field("Life Stage", @user.life_stage&.humanize) %>
+          <%= render_field("Interest Level", @user.interest_level&.humanize) %>
+        </div>
+        <% if @user.emotional_availability.present? %>
+          <div class="mt-6">
+            <div class="text-xs uppercase tracking-widest text-muted mb-1">Emotional Availability</div>
+            <p class="text-sm text-cream/80 leading-relaxed"><%= @user.emotional_availability %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <%# === IDENTITY & VALUES === %>
+      <div class="bg-bg2 border border-border rounded-2xl p-8">
+        <h2 class="text-xs tracking-[0.2em] uppercase text-pk mb-6">Identity & Values</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <%= render_field("Jewish", @user.jewish? ? "Yes" : "No") %>
+          <%= render_field("Jewish Identity", @user.jewish_identity) %>
+          <%= render_field("Political View", @user.political_view&.humanize) %>
+        </div>
+        <% if @user.cultural_values.present? %>
+          <div class="mt-6">
+            <div class="text-xs uppercase tracking-widest text-muted mb-1">Cultural Values</div>
+            <p class="text-sm text-cream/80 leading-relaxed"><%= @user.cultural_values %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <%# === LIFESTYLE === %>
+      <div class="bg-bg2 border border-border rounded-2xl p-8">
+        <h2 class="text-xs tracking-[0.2em] uppercase text-pk mb-6">Lifestyle</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <%= render_field("Alcohol", @user.alcohol_use&.sub("alcohol_", "")&.humanize) %>
+          <%= render_field("Smoking", @user.smoking&.humanize) %>
+          <%= render_field("Marijuana", @user.marijuana_use&.sub("marijuana_", "")&.humanize) %>
+        </div>
+        <div class="grid grid-cols-2 gap-6 mt-4">
+          <%= render_field("Neurodivergent", @user.neurodivergent&.humanize) %>
+          <%= render_field("Open to Relocating", @user.open_to_relocating&.sub("relocating_", "")&.humanize) %>
+        </div>
+      </div>
+
+      <%# === RELATIONSHIP CONTEXT === %>
+      <% text_fields = [
+        ["Upbringing", @user.upbringing],
+        ["Grief or Loss", @user.grief_or_loss],
+        ["Relationship Patterns", @user.relationship_patterns],
+        ["Partner Goals", @user.partner_goals],
+        ["Relationship Qualities", @user.relationship_qualities],
+        ["Comfort & Lifestyle", @user.comfort_lifestyle],
+        ["Luxury & Ease", @user.luxury_relationship]
+      ].select { |_, v| v.present? } %>
+      <% if text_fields.any? %>
+        <div class="bg-bg2 border border-border rounded-2xl p-8">
+          <h2 class="text-xs tracking-[0.2em] uppercase text-pk mb-6">Relationship Context</h2>
+          <div class="space-y-5">
+            <% text_fields.each do |label, value| %>
+              <div>
+                <div class="text-xs uppercase tracking-widest text-muted mb-1"><%= label %></div>
+                <p class="text-sm text-cream/80 leading-relaxed"><%= value %></p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

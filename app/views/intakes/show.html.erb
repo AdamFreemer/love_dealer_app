@@ -1,0 +1,181 @@
+<section class="py-32 px-8">
+  <div class="max-w-2xl mx-auto">
+    <div class="text-center mb-12">
+      <div class="text-xs tracking-[0.2em] uppercase text-pk mb-4">Dating Intake Form</div>
+      <h1 class="font-serif text-[clamp(1.8rem,3vw,2.6rem)] font-normal mb-3 text-cream">Help us understand you better</h1>
+      <p class="text-sm text-muted">The more you share, the better Jamie can understand who you are and what you're looking for.</p>
+    </div>
+
+    <%= form_with(model: @user, url: intake_path, method: :patch, class: "space-y-8") do |f| %>
+      <% if @user.errors.any? %>
+        <div class="p-4 bg-red-900/20 border border-red-500/30 rounded-xl text-red-300 text-sm">
+          <% @user.errors.full_messages.each do |msg| %>
+            <p><%= msg %></p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%# === CONTACT & LOCATION === %>
+      <fieldset class="space-y-4">
+        <legend class="text-xs tracking-[0.2em] uppercase text-pk mb-2 border-b border-border pb-2 w-full">Contact & Location</legend>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">Phone number</label>
+          <%= f.phone_field :phone, placeholder: "(310) 555-0123", class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors" %>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">Where are you currently located?</label>
+          <%= f.text_field :location, placeholder: "Los Angeles, CA", class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors" %>
+        </div>
+      </fieldset>
+
+      <%# === LIFE STAGE & READINESS === %>
+      <fieldset class="space-y-4">
+        <legend class="text-xs tracking-[0.2em] uppercase text-pk mb-2 border-b border-border pb-2 w-full">Life Stage & Readiness</legend>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">How would you describe your current life stage?</label>
+          <%= f.select :life_stage, options_for_select([["Select...", ""], ["Actively seeking a committed relationship", "actively_seeking"], ["Open to dating", "open_to_dating"], ["Recently single", "recently_single"], ["Taking a break", "taking_a_break"], ["Newly divorced", "newly_divorced"], ["Other", "other_life_stage"]], @user.life_stage), {}, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">How emotionally and practically available do you feel for a relationship right now?</label>
+          <%= f.text_area :emotional_availability, placeholder: "Share where you're at...", rows: 3, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors resize-y" %>
+        </div>
+      </fieldset>
+
+      <%# === IDENTITY & VALUES === %>
+      <fieldset class="space-y-4">
+        <legend class="text-xs tracking-[0.2em] uppercase text-pk mb-2 border-b border-border pb-2 w-full">Identity & Values</legend>
+        <div class="flex items-center gap-3">
+          <%= f.check_box :jewish, class: "w-4 h-4 accent-pk" %>
+          <label class="text-sm text-cream">Do you identify as Jewish?</label>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">If yes or partially, how do you identify?</label>
+          <%= f.text_field :jewish_identity, placeholder: "e.g. Reform, Conservative, Spiritually Jewish...", class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors" %>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">Are religious or cultural values important in your future partnership?</label>
+          <%= f.text_area :cultural_values, placeholder: "Share your thoughts...", rows: 3, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors resize-y" %>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">What is your current political view?</label>
+          <%= f.select :political_view, options_for_select([["Select...", ""], ["Liberal", "liberal"], ["Moderate", "moderate"], ["Conservative", "conservative"], ["Libertarian", "libertarian"], ["Apolitical", "apolitical"], ["None of the above", "none_of_the_above"]], @user.political_view), {}, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
+        </div>
+      </fieldset>
+
+      <%# === LIFESTYLE === %>
+      <fieldset class="space-y-4">
+        <legend class="text-xs tracking-[0.2em] uppercase text-pk mb-2 border-b border-border pb-2 w-full">Lifestyle</legend>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="flex flex-col">
+            <label class="text-xs uppercase tracking-widest text-muted mb-1">Do you drink alcohol?</label>
+            <%= f.select :alcohol_use, options_for_select([["Select...", ""], ["Never", "alcohol_never"], ["Occasionally", "alcohol_occasionally"], ["Regularly", "alcohol_regularly"]], @user.alcohol_use), {}, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
+          </div>
+          <div class="flex flex-col">
+            <label class="text-xs uppercase tracking-widest text-muted mb-1">Do you smoke/vape?</label>
+            <%= f.select :smoking, options_for_select([["Select...", ""], ["No", "no_smoking"], ["Occasionally", "occasional_smoking"], ["Yes", "yes_smoking"]], @user.smoking), {}, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
+          </div>
+          <div class="flex flex-col">
+            <label class="text-xs uppercase tracking-widest text-muted mb-1">Do you use marijuana?</label>
+            <%= f.select :marijuana_use, options_for_select([["Select...", ""], ["Never", "marijuana_never"], ["Occasionally", "marijuana_occasionally"], ["Regularly", "marijuana_regularly"]], @user.marijuana_use), {}, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
+          </div>
+        </div>
+      </fieldset>
+
+      <%# === NEURODIVERGENCE === %>
+      <fieldset class="space-y-4">
+        <legend class="text-xs tracking-[0.2em] uppercase text-pk mb-2 border-b border-border pb-2 w-full">Neurodivergence</legend>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">Do you identify as neurodivergent or neuro-curious?</label>
+          <%= f.select :neurodivergent, options_for_select([["Select...", ""], ["Yes", "neurodivergent_yes"], ["No", "neurodivergent_no"], ["Prefer not to say", "prefer_not_to_say"]], @user.neurodivergent), {}, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">Is there anything important about how your brain works that a future partner should understand?</label>
+          <%= f.text_area :neurodivergent_details, placeholder: "Optional...", rows: 3, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors resize-y" %>
+        </div>
+      </fieldset>
+
+      <%# === BACKGROUND & RELATIONSHIPS === %>
+      <fieldset class="space-y-4">
+        <legend class="text-xs tracking-[0.2em] uppercase text-pk mb-2 border-b border-border pb-2 w-full">Background & Relationships</legend>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">Briefly describe your upbringing and family dynamics</label>
+          <%= f.text_area :upbringing, rows: 3, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors resize-y" %>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">Have you experienced significant grief or loss that has shaped you?</label>
+          <%= f.text_area :grief_or_loss, placeholder: "You may share as much or as little as feels comfortable.", rows: 3, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors resize-y" %>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">How do these experiences influence how you show up in relationships today?</label>
+          <%= f.text_area :relationship_patterns, rows: 3, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors resize-y" %>
+        </div>
+      </fieldset>
+
+      <%# === PARTNER & RELATIONSHIP GOALS === %>
+      <fieldset class="space-y-4">
+        <legend class="text-xs tracking-[0.2em] uppercase text-pk mb-2 border-b border-border pb-2 w-full">Partner & Relationship Goals</legend>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">What are you ultimately hoping to build with a partner?</label>
+          <%= f.text_area :partner_goals, rows: 3, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors resize-y" %>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">What qualities matter most to you in a long-term relationship?</label>
+          <%= f.text_area :relationship_qualities, rows: 3, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors resize-y" %>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">How important are comfort, lifestyle, and quality of life to you?</label>
+          <%= f.text_area :comfort_lifestyle, rows: 3, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors resize-y" %>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">How would you describe your relationship to luxury or ease?</label>
+          <%= f.text_area :luxury_relationship, placeholder: "Interpret this however you like — travel, home, food, pace of life, etc.", rows: 3, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors resize-y" %>
+        </div>
+      </fieldset>
+
+      <%# === LOGISTICS === %>
+      <fieldset class="space-y-4">
+        <legend class="text-xs tracking-[0.2em] uppercase text-pk mb-2 border-b border-border pb-2 w-full">Logistics</legend>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">Are you open to relocating for the right relationship?</label>
+          <%= f.select :open_to_relocating, options_for_select([["Select...", ""], ["Yes", "relocating_yes"], ["No", "relocating_no"], ["Maybe", "relocating_maybe"]], @user.open_to_relocating), {}, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">Which best describes your interest level?</label>
+          <%= f.select :interest_level, options_for_select([["Select...", ""], ["I am seriously interested and ready to invest time and energy", "seriously_interested"], ["I'm curious", "curious"], ["Just exploring", "just_exploring"]], @user.interest_level), {}, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xs uppercase tracking-widest text-muted mb-1">Are you open to a required private Zoom consultation (1-2 hours)?</label>
+          <%= f.select :open_to_zoom_consultation, options_for_select([["Select...", ""], ["Yes", "zoom_yes"], ["No", "zoom_no"], ["Maybe", "zoom_maybe"]], @user.open_to_zoom_consultation), {}, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
+        </div>
+        <div class="flex items-center gap-3">
+          <%= f.check_box :agrees_to_consultation, class: "w-4 h-4 accent-pk" %>
+          <label class="text-sm text-cream">I understand that participation requires a paid screening consultation before any matchmaking or introductions.</label>
+        </div>
+        <div class="flex items-center gap-3">
+          <%= f.check_box :agrees_to_no_guarantee, class: "w-4 h-4 accent-pk" %>
+          <label class="text-sm text-cream">I understand that completing this form does not guarantee matchmaking, but helps determine next steps and alignment.</label>
+        </div>
+      </fieldset>
+
+      <%# === CREATE PASSWORD === %>
+      <% unless @user.encrypted_password.present? %>
+        <fieldset class="space-y-4">
+          <legend class="text-xs tracking-[0.2em] uppercase text-pk mb-2 border-b border-border pb-2 w-full">Create Your Account Password</legend>
+          <p class="text-xs text-muted">Create a password so you can log in later to view your profile and status.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col">
+              <label class="text-xs uppercase tracking-widest text-muted mb-1">Password</label>
+              <%= f.password_field :password, autocomplete: "new-password", class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors" %>
+            </div>
+            <div class="flex flex-col">
+              <label class="text-xs uppercase tracking-widest text-muted mb-1">Confirm password</label>
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors" %>
+            </div>
+          </div>
+        </fieldset>
+      <% end %>
+
+      <%= f.submit "Complete my profile", class: "w-full mt-6 py-4 bg-pk text-white border-none rounded-full font-sans text-sm cursor-pointer hover:bg-pk-dk transition-colors" %>
+    <% end %>
+  </div>
+</section>

@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+@theme {
+  --color-bg: #0f0c0e;
+  --color-bg2: #171217;
+  --color-pk: #d4789a;
+  --color-pk-dk: #b35678;
+  --color-cream: #e8ddd4;
+  --color-muted: rgba(232,221,212,0.45);
+  --color-border: rgba(232,221,212,0.1);
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
