@@ -1,11 +1,17 @@
+<% input_class = "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
+<% select_class = "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
+<% textarea_class = "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none resize-y" %>
+<% label_class = "block text-xs uppercase tracking-wider text-gray-500 mb-1" %>
+<% section_class = "text-xs uppercase tracking-wider text-pk font-medium mb-4 pb-2 border-b border-gray-200" %>
+
 <div class="mb-6">
   <a href="<%= admin_customer_path(@customer) %>" class="text-sm text-gray-500 hover:text-gray-900 no-underline">&larr; Back to <%= @customer.full_name %></a>
 </div>
 
 <h1 class="font-serif text-2xl mb-8">Edit <%= @customer.full_name %></h1>
 
-<div class="bg-white rounded-xl border border-gray-200 p-8 max-w-2xl">
-  <%= form_with(model: @customer, url: admin_customer_path(@customer), method: :patch, class: "space-y-6") do |f| %>
+<div class="bg-white rounded-xl border border-gray-200 p-8 max-w-3xl">
+  <%= form_with(model: @customer, url: admin_customer_path(@customer), method: :patch, class: "space-y-10") do |f| %>
     <% if @customer.errors.any? %>
       <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-sm">
         <% @customer.errors.full_messages.each do |msg| %>
@@ -14,44 +20,203 @@
       </div>
     <% end %>
 
-    <div>
-      <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Status</label>
-      <%= f.select :status, options_for_select([["Under Review", "under_review"], ["Accepted", "accepted"], ["Please Contact", "please_contact"]], @customer.status), {}, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
-    </div>
-
-    <div class="grid grid-cols-2 gap-4">
+    <%# === ADMIN === %>
+    <fieldset class="space-y-4">
+      <legend class="<%= section_class %>">Admin</legend>
       <div>
-        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">First Name</label>
-        <%= f.text_field :first_name, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
+        <label class="<%= label_class %>">Status</label>
+        <%= f.select :status, options_for_select([["Under Review", "under_review"], ["Accepted", "accepted"], ["Please Contact", "please_contact"]], @customer.status), {}, class: select_class %>
       </div>
       <div>
-        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Last Name</label>
-        <%= f.text_field :last_name, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
+        <label class="<%= label_class %>">Admin Notes</label>
+        <%= f.text_area :admin_notes, rows: 4, class: textarea_class %>
       </div>
-    </div>
+    </fieldset>
 
-    <div>
-      <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Email</label>
-      <%= f.email_field :email, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
-    </div>
-
-    <div class="grid grid-cols-2 gap-4">
+    <%# === BASIC INFO === %>
+    <fieldset class="space-y-4">
+      <legend class="<%= section_class %>">Basic Information</legend>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="<%= label_class %>">First Name</label>
+          <%= f.text_field :first_name, class: input_class %>
+        </div>
+        <div>
+          <label class="<%= label_class %>">Last Name</label>
+          <%= f.text_field :last_name, class: input_class %>
+        </div>
+      </div>
       <div>
-        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Phone</label>
-        <%= f.phone_field :phone, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
+        <label class="<%= label_class %>">Email</label>
+        <%= f.email_field :email, class: input_class %>
+      </div>
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <label class="<%= label_class %>">Age</label>
+          <%= f.number_field :age, min: 18, max: 99, class: input_class %>
+        </div>
+        <div>
+          <label class="<%= label_class %>">Gender</label>
+          <%= f.select :gender, options_for_select([["—", ""], ["Man", "man"], ["Woman", "woman"], ["Non-binary", "non_binary"]], @customer.gender), {}, class: select_class %>
+        </div>
+        <div>
+          <label class="<%= label_class %>">Seeking</label>
+          <%= f.select :seeking, options_for_select([["—", ""], ["Man", "seeking_man"], ["Woman", "seeking_woman"], ["Non-binary", "seeking_non_binary"], ["All", "seeking_all"]], @customer.seeking), {}, class: select_class %>
+        </div>
       </div>
       <div>
-        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Location</label>
-        <%= f.text_field :location, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none" %>
+        <label class="<%= label_class %>">About</label>
+        <%= f.text_area :about, rows: 4, class: textarea_class %>
       </div>
-    </div>
+    </fieldset>
 
-    <div>
-      <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Admin Notes</label>
-      <%= f.text_area :admin_notes, rows: 4, class: "w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-pk/20 focus:border-pk outline-none resize-y" %>
-    </div>
+    <%# === CONTACT & LOCATION === %>
+    <fieldset class="space-y-4">
+      <legend class="<%= section_class %>">Contact & Location</legend>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="<%= label_class %>">Phone</label>
+          <%= f.phone_field :phone, class: input_class %>
+        </div>
+        <div>
+          <label class="<%= label_class %>">Location</label>
+          <%= f.text_field :location, class: input_class %>
+        </div>
+      </div>
+    </fieldset>
 
-    <div class="flex gap-3">
+    <%# === LIFE STAGE & READINESS === %>
+    <fieldset class="space-y-4">
+      <legend class="<%= section_class %>">Life Stage & Readiness</legend>
+      <div>
+        <label class="<%= label_class %>">Life Stage</label>
+        <%= f.select :life_stage, options_for_select([["—", ""], ["Actively seeking", "actively_seeking"], ["Open to dating", "open_to_dating"], ["Recently single", "recently_single"], ["Taking a break", "taking_a_break"], ["Newly divorced", "newly_divorced"], ["Other", "other_life_stage"]], @customer.life_stage), {}, class: select_class %>
+      </div>
+      <div>
+        <label class="<%= label_class %>">Emotional Availability</label>
+        <%= f.text_area :emotional_availability, rows: 3, class: textarea_class %>
+      </div>
+    </fieldset>
+
+    <%# === IDENTITY & VALUES === %>
+    <fieldset class="space-y-4">
+      <legend class="<%= section_class %>">Identity & Values</legend>
+      <div class="flex items-center gap-2">
+        <%= f.check_box :jewish, class: "w-4 h-4 accent-pk" %>
+        <label class="text-sm text-gray-700">Identifies as Jewish</label>
+      </div>
+      <div>
+        <label class="<%= label_class %>">Jewish Identity</label>
+        <%= f.text_field :jewish_identity, class: input_class %>
+      </div>
+      <div>
+        <label class="<%= label_class %>">Cultural Values</label>
+        <%= f.text_area :cultural_values, rows: 3, class: textarea_class %>
+      </div>
+      <div>
+        <label class="<%= label_class %>">Political View</label>
+        <%= f.select :political_view, options_for_select([["—", ""], ["Liberal", "liberal"], ["Moderate", "moderate"], ["Conservative", "conservative"], ["Libertarian", "libertarian"], ["Apolitical", "apolitical"], ["None of the above", "none_of_the_above"]], @customer.political_view), {}, class: select_class %>
+      </div>
+    </fieldset>
+
+    <%# === LIFESTYLE === %>
+    <fieldset class="space-y-4">
+      <legend class="<%= section_class %>">Lifestyle</legend>
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <label class="<%= label_class %>">Alcohol</label>
+          <%= f.select :alcohol_use, options_for_select([["—", ""], ["Never", "alcohol_never"], ["Occasionally", "alcohol_occasionally"], ["Regularly", "alcohol_regularly"]], @customer.alcohol_use), {}, class: select_class %>
+        </div>
+        <div>
+          <label class="<%= label_class %>">Smoking</label>
+          <%= f.select :smoking, options_for_select([["—", ""], ["No", "no_smoking"], ["Occasionally", "occasional_smoking"], ["Yes", "yes_smoking"]], @customer.smoking), {}, class: select_class %>
+        </div>
+        <div>
+          <label class="<%= label_class %>">Marijuana</label>
+          <%= f.select :marijuana_use, options_for_select([["—", ""], ["Never", "marijuana_never"], ["Occasionally", "marijuana_occasionally"], ["Regularly", "marijuana_regularly"]], @customer.marijuana_use), {}, class: select_class %>
+        </div>
+      </div>
+    </fieldset>
+
+    <%# === NEURODIVERGENCE === %>
+    <fieldset class="space-y-4">
+      <legend class="<%= section_class %>">Neurodivergence</legend>
+      <div>
+        <label class="<%= label_class %>">Neurodivergent</label>
+        <%= f.select :neurodivergent, options_for_select([["—", ""], ["Yes", "neurodivergent_yes"], ["No", "neurodivergent_no"], ["Prefer not to say", "prefer_not_to_say"]], @customer.neurodivergent), {}, class: select_class %>
+      </div>
+      <div>
+        <label class="<%= label_class %>">Neurodivergent Details</label>
+        <%= f.text_area :neurodivergent_details, rows: 3, class: textarea_class %>
+      </div>
+    </fieldset>
+
+    <%# === BACKGROUND & RELATIONSHIPS === %>
+    <fieldset class="space-y-4">
+      <legend class="<%= section_class %>">Background & Relationships</legend>
+      <div>
+        <label class="<%= label_class %>">Upbringing</label>
+        <%= f.text_area :upbringing, rows: 3, class: textarea_class %>
+      </div>
+      <div>
+        <label class="<%= label_class %>">Grief or Loss</label>
+        <%= f.text_area :grief_or_loss, rows: 3, class: textarea_class %>
+      </div>
+      <div>
+        <label class="<%= label_class %>">Relationship Patterns</label>
+        <%= f.text_area :relationship_patterns, rows: 3, class: textarea_class %>
+      </div>
+    </fieldset>
+
+    <%# === PARTNER & RELATIONSHIP GOALS === %>
+    <fieldset class="space-y-4">
+      <legend class="<%= section_class %>">Partner & Relationship Goals</legend>
+      <div>
+        <label class="<%= label_class %>">Partner Goals</label>
+        <%= f.text_area :partner_goals, rows: 3, class: textarea_class %>
+      </div>
+      <div>
+        <label class="<%= label_class %>">Relationship Qualities</label>
+        <%= f.text_area :relationship_qualities, rows: 3, class: textarea_class %>
+      </div>
+      <div>
+        <label class="<%= label_class %>">Comfort & Lifestyle</label>
+        <%= f.text_area :comfort_lifestyle, rows: 3, class: textarea_class %>
+      </div>
+      <div>
+        <label class="<%= label_class %>">Luxury & Ease</label>
+        <%= f.text_area :luxury_relationship, rows: 3, class: textarea_class %>
+      </div>
+    </fieldset>
+
+    <%# === LOGISTICS === %>
+    <fieldset class="space-y-4">
+      <legend class="<%= section_class %>">Logistics</legend>
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <label class="<%= label_class %>">Open to Relocating</label>
+          <%= f.select :open_to_relocating, options_for_select([["—", ""], ["Yes", "relocating_yes"], ["No", "relocating_no"], ["Maybe", "relocating_maybe"]], @customer.open_to_relocating), {}, class: select_class %>
+        </div>
+        <div>
+          <label class="<%= label_class %>">Interest Level</label>
+          <%= f.select :interest_level, options_for_select([["—", ""], ["Seriously interested", "seriously_interested"], ["Curious", "curious"], ["Just exploring", "just_exploring"]], @customer.interest_level), {}, class: select_class %>
+        </div>
+        <div>
+          <label class="<%= label_class %>">Zoom Consultation</label>
+          <%= f.select :open_to_zoom_consultation, options_for_select([["—", ""], ["Yes", "zoom_yes"], ["No", "zoom_no"], ["Maybe", "zoom_maybe"]], @customer.open_to_zoom_consultation), {}, class: select_class %>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <%= f.check_box :agrees_to_consultation, class: "w-4 h-4 accent-pk" %>
+        <label class="text-sm text-gray-700">Agrees to paid screening consultation</label>
+      </div>
+      <div class="flex items-center gap-2">
+        <%= f.check_box :agrees_to_no_guarantee, class: "w-4 h-4 accent-pk" %>
+        <label class="text-sm text-gray-700">Agrees no guarantee of matchmaking</label>
+      </div>
+    </fieldset>
+
+    <div class="flex gap-3 pt-4 border-t border-gray-200">
       <%= f.submit "Save changes", class: "px-6 py-2.5 bg-pk text-white rounded-lg text-sm cursor-pointer hover:bg-pk-dk transition-colors" %>
       <a href="<%= admin_customer_path(@customer) %>" class="px-6 py-2.5 border border-gray-300 text-gray-600 rounded-lg text-sm no-underline hover:bg-gray-50 transition-colors">Cancel</a>
     </div>

@@ -8,7 +8,11 @@ Rails.application.routes.draw do
   resource :customer, only: [ :show ]
 
   namespace :admin do
-    resources :customers, only: [ :index, :show, :edit, :update ]
+    resources :customers, only: [ :index, :show, :edit, :update, :destroy ] do
+      collection do
+        delete :batch_destroy
+      end
+    end
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

@@ -18,6 +18,18 @@ class User < ApplicationRecord
   enum :interest_level, { seriously_interested: 0, curious: 1, just_exploring: 2 }
   enum :open_to_zoom_consultation, { zoom_yes: 0, zoom_no: 1, zoom_maybe: 2 }, prefix: :zoom
 
+  default_scope { where(deleted_at: nil) }
+  scope :with_deleted, -> { unscope(where: :deleted_at) }
+  scope :only_deleted, -> { with_deleted.where.not(deleted_at: nil) }
+
+  def soft_delete!
+    update!(deleted_at: Time.current)
+  end
+
+  def deleted?
+    deleted_at.present?
+  end
+
   def password_required?
     encrypted_password.present? ? super : false
   end

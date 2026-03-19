@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_17_003518) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_19_234304) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -41,6 +41,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_17_003518) do
     t.text "comfort_lifestyle"
     t.datetime "created_at", null: false
     t.text "cultural_values"
+    t.datetime "deleted_at"
     t.string "email", default: "", null: false
     t.text "emotional_availability"
     t.string "encrypted_password", default: "", null: false
@@ -73,6 +74,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_17_003518) do
     t.integer "status", default: 0
     t.text "upbringing"
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["intake_token"], name: "index_users_on_intake_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
