@@ -11,3 +11,12 @@
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Inter', system-ui, sans-serif;
 }
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(212, 120, 154, 0.2), 0 0 30px rgba(212, 120, 154, 0.1); transform: scale(1); }
+  50% { box-shadow: 0 0 30px rgba(212, 120, 154, 0.6), 0 0 60px rgba(212, 120, 154, 0.4), 0 0 90px rgba(212, 120, 154, 0.2); transform: scale(1.03); }
+}
+
+.animate-glow {
+  animation: glow-pulse 2s ease-in-out infinite;
+}

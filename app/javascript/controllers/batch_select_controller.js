@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["selectAll", "checkbox", "batchActions", "form"]
+  static targets = ["selectAll", "checkbox", "batchActions", "softForm", "hardForm", "softCount", "hardCount"]
 
   connect() {
     this.updateUI()
@@ -23,21 +23,32 @@ export default class extends Controller {
     const count = this.checkboxTargets.filter(cb => cb.checked).length
     if (count > 0) {
       this.batchActionsTarget.classList.remove("hidden")
-      this.batchActionsTarget.querySelector("[data-count]").textContent = `Delete ${count} selected`
+      this.softCountTarget.textContent = `Delete ${count} selected`
+      this.hardCountTarget.textContent = `Permanently delete ${count} selected`
     } else {
       this.batchActionsTarget.classList.add("hidden")
     }
   }
 
-  submitBatch(event) {
+  submitSoftBatch(event) {
     const count = this.checkboxTargets.filter(cb => cb.checked).length
-    if (!confirm(`Are you sure you want to delete ${count} customer(s)? This action can be undone by an administrator.`)) {
+    if (!confirm(`Are you sure you want to delete ${count} customer(s)?`)) {
       event.preventDefault()
       return
     }
+    this._submitForm(this.softFormTarget)
+  }
 
-    const form = this.formTarget
-    // Clear any existing hidden inputs
+  submitHardBatch(event) {
+    const count = this.checkboxTargets.filter(cb => cb.checked).length
+    if (!confirm(`Are you sure you want to PERMANENTLY delete ${count} customer(s)? This cannot be undone.`)) {
+      event.preventDefault()
+      return
+    }
+    this._submitForm(this.hardFormTarget)
+  }
+
+  _submitForm(form) {
     form.querySelectorAll("input[name='customer_ids[]']").forEach(el => el.remove())
 
     this.checkboxTargets.filter(cb => cb.checked).forEach(cb => {

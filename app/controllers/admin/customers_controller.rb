@@ -36,6 +36,14 @@ module Admin
       redirect_to admin_customers_path, notice: "#{count} #{"customer".pluralize(count)} deleted."
     end
 
+    def batch_hard_destroy
+      ids = params[:customer_ids] || []
+      users = User.where(id: ids, admin: false)
+      count = users.count
+      users.each { |u| u.user_services.destroy_all; u.delete }
+      redirect_to admin_customers_path, notice: "#{count} #{"customer".pluralize(count)} permanently deleted."
+    end
+
     private
 
     def set_customer

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :customers, only: [ :index, :show, :edit, :update, :destroy ] do
       collection do
         delete :batch_destroy
+        delete :batch_hard_destroy
       end
     end
   end
