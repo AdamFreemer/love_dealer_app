@@ -23,7 +23,7 @@
     <%= f.email_field :email, placeholder: "you@email.com", required: true, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors" %>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
     <div class="flex flex-col">
       <label class="text-xs uppercase tracking-widest text-muted mb-1">Age</label>
       <%= f.select :age, options_for_select([["Select...", ""]] + (18..99).map { |n| [n, n] }, user.age), {}, required: true, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
@@ -32,11 +32,25 @@
       <label class="text-xs uppercase tracking-widest text-muted mb-1">I identify as</label>
       <%= f.select :gender, options_for_select([["Select...", ""], ["A woman", "woman"], ["A man", "man"], ["Non-binary", "non_binary"]], user.gender), {}, required: true, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
     </div>
+    <div class="flex flex-col">
+      <label class="text-xs uppercase tracking-widest text-muted mb-1">I'm seeking</label>
+      <%= f.select :seeking, options_for_select([["Select...", ""], ["Women", "seeking_woman"], ["Men", "seeking_man"], ["Non-binary", "seeking_non_binary"], ["Open to all", "seeking_all"]], user.seeking), {}, required: true, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
+    </div>
   </div>
 
-  <div class="flex flex-col mb-4">
-    <label class="text-xs uppercase tracking-widest text-muted mb-1">I'm seeking</label>
-    <%= f.select :seeking, options_for_select([["Select...", ""], ["Women", "seeking_woman"], ["Men", "seeking_man"], ["Non-binary", "seeking_non_binary"], ["Open to all", "seeking_all"]], user.seeking), {}, required: true, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
+  <div class="grid grid-cols-3 gap-4 mb-4">
+    <div class="flex flex-col col-span-1">
+      <label class="text-xs uppercase tracking-widest text-muted mb-1">City</label>
+      <%= f.text_field :city, placeholder: "Los Angeles", required: true, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors" %>
+    </div>
+    <div class="flex flex-col col-span-1">
+      <label class="text-xs uppercase tracking-widest text-muted mb-1">State</label>
+      <%= f.select :state, options_for_select([["Select...", ""], ["AL","AL"],["AK","AK"],["AZ","AZ"],["AR","AR"],["CA","CA"],["CO","CO"],["CT","CT"],["DE","DE"],["FL","FL"],["GA","GA"],["HI","HI"],["ID","ID"],["IL","IL"],["IN","IN"],["IA","IA"],["KS","KS"],["KY","KY"],["LA","LA"],["ME","ME"],["MD","MD"],["MA","MA"],["MI","MI"],["MN","MN"],["MS","MS"],["MO","MO"],["MT","MT"],["NE","NE"],["NV","NV"],["NH","NH"],["NJ","NJ"],["NM","NM"],["NY","NY"],["NC","NC"],["ND","ND"],["OH","OH"],["OK","OK"],["OR","OR"],["PA","PA"],["RI","RI"],["SC","SC"],["SD","SD"],["TN","TN"],["TX","TX"],["UT","UT"],["VT","VT"],["VA","VA"],["WA","WA"],["WV","WV"],["WI","WI"],["WY","WY"],["DC","DC"]], user.state), {}, required: true, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors appearance-none", style: "background-color: rgba(232,221,212,0.05)" %>
+    </div>
+    <div class="flex flex-col col-span-1">
+      <label class="text-xs uppercase tracking-widest text-muted mb-1">Zip</label>
+      <%= f.text_field :zip, placeholder: "90012", required: true, maxlength: 10, class: "bg-cream/5 border border-border rounded-lg px-4 py-3 text-cream font-sans text-sm outline-none focus:border-pk transition-colors" %>
+    </div>
   </div>
 
   <div class="flex flex-col mb-4">
