@@ -20,3 +20,7 @@
 .animate-glow {
   animation: glow-pulse 2s ease-in-out infinite;
 }
+
+input::placeholder, textarea::placeholder, select option[value=""] {
+  color: rgba(232, 221, 212, 0.25);
+}

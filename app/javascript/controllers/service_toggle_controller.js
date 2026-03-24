@@ -1,7 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["container", "hiddenField"]
+  static targets = ["container", "hiddenField", "validation", "error"]
+
+  connect() {
+    this.element.addEventListener("submit", this.validateBeforeSubmit.bind(this))
+  }
 
   toggle(event) {
     const button = event.currentTarget
@@ -15,6 +19,28 @@ export default class extends Controller {
     if (hiddenField) {
       hiddenField.disabled = !isActive
       hiddenField.value = isActive ? serviceId : ""
+    }
+
+    this.clearError()
+  }
+
+  validateBeforeSubmit(event) {
+    const anySelected = this.hiddenFieldTargets.some(f => !f.disabled)
+    if (!anySelected) {
+      event.preventDefault()
+      this.showError()
+    }
+  }
+
+  showError() {
+    if (this.hasErrorTarget) {
+      this.errorTarget.classList.remove("hidden")
+    }
+  }
+
+  clearError() {
+    if (this.hasErrorTarget) {
+      this.errorTarget.classList.add("hidden")
     }
   }
 }

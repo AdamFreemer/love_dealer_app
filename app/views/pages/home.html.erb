@@ -109,11 +109,13 @@
 </section>
 
 <!-- FORM -->
+<%= tag.meta name: "turbo-cache-control", content: "no-cache" %>
 <section class="py-24 px-8 bg-bg2 border-t border-border" id="apply">
   <div class="max-w-xl mx-auto text-center">
     <div class="text-xs tracking-[0.2em] uppercase text-pk mb-4">Get started</div>
     <h2 class="font-serif text-[clamp(1.8rem,3vw,2.6rem)] font-normal mb-3 text-cream">Tell us about yourself</h2>
-    <p class="text-sm text-muted mb-10">Fill out the form below and Jamie will follow up within 48 hours. All information is kept strictly private.</p>
+    <p class="text-sm text-muted mb-2">Fill out the form below and Jamie will follow up within 48 hours. All information is kept strictly private.</p>
+    <p class="text-xs text-pk/60 mb-10">All fields are required</p>
 
     <%= turbo_frame_tag "registration_form" do %>
       <%= render "pages/form", user: @user, services: @services %>
